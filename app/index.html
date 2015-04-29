@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="bunyanParser">
+<head>
+    <meta charset="UTF-8">
+    <title>Bunyan Parser</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container" ng-controller="LoggerCtrl">
+       <div class="row">
+          <div ng-show="err" class="col-xs-12">
+            <div class="alert alert-danger">
+              {{err}}
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <h2>Select a .log file</h2>
+            <p>This has to be generated with Bunyan</p>
+            <input type="file" class="form-control" on-read-file="showContent($fileContent)" />
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px">
+            <table class="table table-responsive table-bordered">
+                <tr>
+                    <th>Hostname</th>
+                    <th>Level</th>
+                    <th>Message</th>
+                </tr>
+                <tr>
+                    <td><input ng-model="query.hostname"></td>
+                    <td><input ng-model="query.level"></td>
+                    <td><input ng-model="query.msg"></td>
+                </tr>
+                
+                <tr ng-repeat="log in logs | filter:query">
+                    <td>{{log.hostname}}</td>
+                    <td>{{log.level}}</td>
+                    <td>{{log.msg}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row" ng-show="timeTracked">
+          <div class="col-xs-12">
+            <a ng-click="reset()" class="btn btn-primary">Add More</a>
+          </div>
+        </div> 
+    </div>
+    <script src="./bower_components/angular/angular.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
